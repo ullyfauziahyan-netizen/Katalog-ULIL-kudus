@@ -591,7 +591,14 @@ main{
   gap:10px;
   margin:0 0 14px;
 }
-
+.mobileTools{
+  position:sticky;
+  top:0;
+  z-index:20;
+  background:#f6f7f9;
+  padding-top:8px;
+  padding-bottom:8px;
+}
 .toolBtn{
   flex:1;
   min-height:52px;
@@ -752,7 +759,49 @@ main{
   }
 
 }
-  
+  /* ===== AREA PRODUK SCROLL ===== */
+
+@media (max-width:700px){
+
+  html,
+  body{
+    height:100%;
+    overflow:hidden;
+  }
+
+  main{
+    height:calc(100vh - 64px);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  .mobileTools{
+    flex-shrink:0;
+  }
+
+  .search{
+    flex-shrink:0;
+  }
+
+  .cats{
+    flex-shrink:0;
+  }
+
+  .cart{
+    flex-shrink:0;
+  }
+
+  .grid{
+    flex:1;
+    min-height:0;
+    overflow-y:auto;
+    overflow-x:hidden;
+    padding-bottom:30px;
+    align-content:start;
+  }
+
+}
 </style>
 </head>
 
