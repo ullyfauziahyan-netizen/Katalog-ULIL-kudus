@@ -19,8 +19,17 @@ async function loadData(){
       }
     });
     if(!r.ok) throw new Error(await r.text());
-    data=await r.json();
-    render();
+    const rows=await r.json();
+data=rows.map(x=>({
+  id:x.id,
+  n:x.name,
+  b:x.brand,
+  c:x.category,
+  p:x.price_ctn,
+  i:x.pack,
+  img:x.image_url||""
+}));
+render();
   }catch(e){
     console.error(e);
     data=[];
