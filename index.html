@@ -20,6 +20,9 @@ async function loadData(){
     });
     if(!r.ok) throw new Error(await r.text());
     const rows=await r.json();
+
+alert("Supabase berhasil: "+rows.length+" produk");
+
 data=rows.map(x=>({
   id:x.id,
   n:x.name,
@@ -29,6 +32,7 @@ data=rows.map(x=>({
   i:x.pack,
   img:x.image_url||""
 }));
+
 render();
   }catch(e){
   console.error(e);
