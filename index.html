@@ -13,32 +13,46 @@ let data=[];
 
 async function loadData(){
   try{
+    alert("MULAI HUBUNG SUPABASE");
+
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),10000);
+
     const r=await fetch(SUPABASE_URL+"products?select=*",{
       headers:{
         "apikey":SUPABASE_KEY,
         "Authorization":"Bearer "+SUPABASE_KEY
-      }
+      },
+      signal:controller.signal
     });
+
+    clearTimeout(timer);
+
+    alert("SUPABASE MERESPONS. STATUS: "+r.status);
+
     if(!r.ok) throw new Error(await r.text());
+
     const rows=await r.json();
 
-alert("Supabase berhasil: "+rows.length+" produk");
+    alert("JUMLAH DATA: "+rows.length);
 
-data=rows.map(x=>({
-  id:x.id,
-  n:x.name,
-  b:x.brand,
-  c:x.category,
-  p:x.price_ctn,
-  i:x.pack,
-  img:x.image_url||""
-}));
+    data=rows.map(x=>({
+      id:x.id,
+      n:x.name,
+      b:x.brand,
+      c:x.category,
+      p:x.price_ctn,
+      i:x.pack,
+      img:x.image_url||""
+    }));
 
-alert("DATA SUPABASE: "+JSON.stringify(rows));
+    render();
+
   }catch(e){
-  console.error(e);
-  data=[];
-  alert("ERROR SUPABASE: "+e.message);
+    alert("ERROR: "+e.message);
+    console.error(e);
+    data=[];
+    render();
   }
 }
 const esc=s=>String(s??"").replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]));
