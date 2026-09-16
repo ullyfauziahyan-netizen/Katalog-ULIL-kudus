@@ -760,54 +760,219 @@ main{
 
 }
   
-  /* ===== FINAL LAYOUT ===== */
+ /* ===== LAYOUT KATALOG LAMA ===== */
+
+/* HEADER TETAP */
+header{
+  position:fixed !important;
+  top:0;
+  left:0;
+  right:0;
+  height:64px;
+  z-index:5000;
+  padding:8px 18px;
+  background:#fff;
+}
+
+/* KONTEN UTAMA */
+main{
+  max-width:none;
+  margin:0;
+  padding:84px 22px 80px;
+}
+
+/* HILANGKAN HERO */
+.hero{
+  display:none !important;
+}
+
+/* KATEGORI ATAS DIHILANGKAN */
+.cats{
+  display:none !important;
+}
+
+/* CART TIDAK MENGGANGGU GRID */
+.cart{
+  position:relative;
+  z-index:10;
+}
+
+/* PRODUK */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+}
+
+/* GAMBAR PRODUK LEBIH TERLIHAT */
+.pic{
+  height:210px;
+  background:#fff;
+}
+
+.pic img{
+  object-fit:contain;
+}
+
+/* FOOTER 3 TOMBOL */
+.mobileTools{
+  position:fixed !important;
+  left:0;
+  right:0;
+  bottom:0;
+  top:auto !important;
+  z-index:6000;
+  margin:0 !important;
+  padding:10px 22px;
+  background:rgba(255,255,255,.96);
+  border-top:1px solid #ddd;
+  box-shadow:0 -3px 12px rgba(0,0,0,.08);
+}
+
+/* SEARCH MUNCUL DI ATAS FOOTER */
+.search.searchVisible{
+  position:fixed !important;
+  left:15px;
+  right:15px;
+  bottom:78px;
+  width:auto;
+  z-index:5500;
+  margin:0;
+}
+
+/* ===== DESKTOP FILTER KIRI ===== */
+
+@media(min-width:701px){
+
+  /* ruang untuk sidebar */
+  #grid{
+    margin-left:300px;
+  }
+
+  /* FILTER SELALU TERSEDIA DI KIRI */
+  #filterSheet{
+    display:block !important;
+    position:fixed;
+    left:0;
+    top:64px;
+    bottom:61px;
+    width:280px;
+    background:#fff;
+    z-index:1000;
+    overflow-y:auto;
+    border-right:1px solid #ddd;
+    padding:16px;
+  }
+
+  #filterSheet .uxSheet{
+    position:static;
+    width:100%;
+    max-width:none;
+    max-height:none;
+    overflow:visible;
+    padding:0;
+    border-radius:0;
+    box-shadow:none;
+    animation:none;
+  }
+
+  #filterSheet::before{
+    content:"Filters";
+    display:block;
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:15px;
+  }
+
+  /* overlay transparan di desktop */
+  #filterSheet{
+    background:#fff;
+  }
+
+  /* SORT tetap berupa popup */
+  #sortSheet{
+    z-index:7000;
+  }
+
+  /* ADMIN tetap bisa tampil normal */
+  #adminPanel{
+    position:relative;
+    z-index:20;
+  }
+}
+
+/* ===== MOBILE ===== */
 
 @media(max-width:700px){
 
   html,
   body{
-    height:100%;
-    overflow:hidden;
+    margin:0;
+    width:100%;
+    overflow:hidden !important;
   }
 
   main{
-    height:calc(100vh - 64px);
-    display:flex;
-    flex-direction:column;
+    width:100%;
+    height:100vh;
     overflow:hidden;
+    padding:76px 8px 78px;
   }
 
-  .hero{
-    flex-shrink:0;
-  }
-
-  .mobileTools{
-    position:static !important;
-    flex-shrink:0;
-    margin:0 0 14px;
-  }
-
-  .search{
-    position:static !important;
-    flex-shrink:0;
-  }
-
-  .cats{
-    position:static !important;
-    flex-shrink:0;
-  }
-
-  .cart{
-    flex-shrink:0;
-  }
-
+  /* 1 KOLOM, PRODUK BESAR */
   .grid{
-    flex:1 1 auto;
-    min-height:0;
+    height:calc(100vh - 154px);
+    margin:0 !important;
+    display:grid;
+    grid-template-columns:1fr !important;
+    gap:14px;
     overflow-y:auto !important;
     overflow-x:hidden !important;
+    padding:0 8px 30px;
     align-content:start;
-    padding-bottom:30px;
+  }
+
+  .card{
+    width:100%;
+    border-radius:18px;
+  }
+
+  .pic{
+    height:280px;
+    background:#fff;
+  }
+
+  .cardbody{
+    padding:14px 16px 16px;
+  }
+
+  .name{
+    font-size:17px;
+  }
+
+  .price{
+    font-size:19px;
+  }
+
+  /* FOOTER */
+  .mobileTools{
+    height:70px;
+    padding:8px 12px;
+    gap:8px;
+  }
+
+  .toolBtn{
+    min-height:52px;
+    border-radius:12px;
+  }
+
+  /* FILTER & SORT SHEET TETAP DI ATAS */
+  .uxOverlay{
+    z-index:8000 !important;
+  }
+
+  .uxSheet{
+    z-index:8001 !important;
   }
 
 }
