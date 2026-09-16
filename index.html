@@ -4,8 +4,30 @@
 </style></head><body>
 <header><b>KATALOG ANDA</b><button onclick="adminLogin()">🔒 Admin</button></header><main><section class="hero"><h1>Katalog Produk</h1><p>Tambah dan edit produk melalui Admin.</p></section><input id="q" class="search" placeholder="Cari produk..." oninput="render()"><div id="cats" class="cats"></div><div id="admin"></div><div id="grid" class="grid"></div></main><div id="modal"></div>
 <script>
-const K="katalog_data";let data=JSON.parse(localStorage.getItem(K)||"null")||[{id:1,n:"Contoh Produk",b:"Brand",c:"Sembako",p:100000,i:12,img:""}],isAdmin=false,cat="Semua";
-const rp=n=>new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n||0);
+
+const SUPABASE_URL="https://kyzoscnnezuzewvknxuh.supabase.co/rest/v1/";
+  const SUPABASE_KEY="sb_publishable_-TmUC7SdNF6m4fTLEasIGg_YFfEYcaP";
+const K="katalog_data";
+let data=[];
+
+async function loadData(){
+  try{
+    const r=await fetch(SUPABASE_URL+"products?select=*",{
+      headers:{
+        "apikey":SUPABASE_KEY,
+        "Authorization":"Bearer "+SUPABASE_KEY
+      }
+    });
+    if(!r.ok) throw new Error(await r.text());
+    data=await r.json();
+    render();
+  }catch(e){
+    console.error(e);
+    data=[];
+    render();
+    alert("Gagal mengambil data dari Supabase");
+  }
+}
 const esc=s=>String(s??"").replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]));
 function save(){localStorage.setItem(K,JSON.stringify(data))}
 function render(){let q=document.getElementById("q").value.toLowerCase(),cs=["Semua",...new Set(data.map(x=>x.c).filter(Boolean))];document.getElementById("cats").innerHTML=cs.map(x=>`<button class="${x==cat?"on":""}" onclick="cat='${esc(x)}';render()">${esc(x)}</button>`).join("");let a=data.filter(x=>(cat=="Semua"||x.c==cat)&&x.n.toLowerCase().includes(q));document.getElementById("grid").innerHTML=a.map(x=>`<article class="card"><div class="pic">${x.img?`<img src="${x.img}">`:"📦"}</div><div class="body"><small>${esc(x.b||"—")} · ${esc(x.c||"—")}</small><h3>${esc(x.n)}</h3><div class="price">${rp(x.p)} / CTN</div><div class="meta">Isi ${x.i||1} PCS · ± ${rp((x.p||0)/(x.i||1))}/PCS</div><button class="add" onclick="alert('Produk ditambahkan: ${esc(x.n)}')">＋ Tambah</button>${isAdmin?`<div class="edit"><button onclick="edit(${x.id})">✏️ Edit</button><button onclick="del(${x.id})">🗑️</button></div>`:""}</div></article>`).join("")||"<p>Produk tidak ditemukan.</p>";document.getElementById("admin").innerHTML=isAdmin?`<div class="admin"><b>MODE ADMIN</b> <button onclick="edit()">＋ Tambah Produk</button> <button onclick="isAdmin=false;render()">Keluar</button></div>`:""}
@@ -15,4 +37,5 @@ function edit(id){let x=id?data.find(a=>a.id===id):{id:0,n:"",b:"",c:"",p:0,i:1,
 function photo(el){let r=new FileReader;r.onload=()=>{window.img=r.result;document.getElementById("pr").src=r.result};r.readAsDataURL(el.files[0])}
 function saveEdit(id){let x={id:id||Date.now(),n:document.getElementById("n").value,b:document.getElementById("b").value,c:document.getElementById("c").value,p:+document.getElementById("p").value||0,i:+document.getElementById("i").value||1,img:window.img||""};data=id?data.map(a=>a.id==id?x:a):[...data,x];save();closeM();render()}
 function closeM(){document.getElementById("modal").innerHTML=""}render();
+loadData();
 </script></body></html>
