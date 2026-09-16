@@ -716,7 +716,22 @@ ${
   `
   : ""
 }
-
+${
+  `<div style="margin-top:12px">
+    <button onclick="addToCart(${x.id},'ctn')">
+      🛒 Tambah CTN
+    </button>
+    ${
+      x.pcsEnabled && x.i
+      ? `
+        <button onclick="addToCart(${x.id},'pcs')">
+          🛒 Tambah PCS
+        </button>
+      `
+      : ""
+    }
+  </div>`
+}
           ${
             isAdmin
             ? `<div style="margin-top:12px">
@@ -736,7 +751,101 @@ ${
 
     `).join("");
 }
+let cart = [];
 
+function addToCart(id, type){
+  const x = data.find(a => a.id === id);
+  if(!x) return;
+
+  let price = Number(x.p || 0);
+
+  if(type === "pcs"){
+    if(!x.pcsEnabled || !x.i) return;
+
+    const base = price / Number(x.i);
+    price = Math.ceil(
+      (base * (1 + Number(x.pcsMarkup || 0) / 100)) / 500
+    ) * 500;
+  }
+
+  const key = id + "-" + type;
+  const existing = cart.find(a => a.key === key);
+
+  if(existing){
+    existing.qty++;
+  }else{
+    cart.push({
+      key:key,
+      id:id,
+      name:x.n,
+      type:type,
+      price:price,
+      qty:1
+    });
+  }
+
+  renderCart();
+}
+  function renderCart(){
+
+  const el = document.getElementById("cart");
+
+  if(!el) return;
+
+  if(!cart.length){
+    el.innerHTML = '<div class="empty">Keranjang masih kosong.</div>';
+    return;
+  }
+
+  let total = 0;
+
+  el.innerHTML = cart.map((x,i)=>{
+
+    const subtotal = x.price * x.qty;
+    total += subtotal;
+
+    return `
+      <div class="cartItem">
+
+        <div>
+          <div class="cartName">${esc(x.name)}</div>
+
+          <div class="cartMeta">
+            ${x.type === "pcs" ? "PCS" : "CTN"}
+            × ${x.qty}
+          </div>
+
+          <div class="cartPrice">
+            Rp ${Number(x.price).toLocaleString("id-ID")}
+          </div>
+        </div>
+
+        <div>
+          <strong>
+            Rp ${subtotal.toLocaleString("id-ID")}
+          </strong>
+
+          <button onclick="cart.splice(${i},1);renderCart()">
+            🗑️
+          </button>
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+  el.innerHTML += `
+    <div class="cartTotal">
+      <strong>Total</strong>
+      <strong>Rp ${total.toLocaleString("id-ID")}</strong>
+    </div>
+
+    <button onclick="checkoutCart()">
+      🛒 Checkout
+    </button>
+  `;
+}
 function esc(s){
 
   return String(s??"")
