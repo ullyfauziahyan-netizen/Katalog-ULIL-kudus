@@ -64,5 +64,5 @@ function edit(id){let x=id?data.find(a=>a.id===id):{id:0,n:"",b:"",c:"",p:0,i:1,
 function photo(el){let r=new FileReader;r.onload=()=>{window.img=r.result;document.getElementById("pr").src=r.result};r.readAsDataURL(el.files[0])}
 function saveEdit(id){let x={id:id||Date.now(),n:document.getElementById("n").value,b:document.getElementById("b").value,c:document.getElementById("c").value,p:+document.getElementById("p").value||0,i:+document.getElementById("i").value||1,img:window.img||""};data=id?data.map(a=>a.id==id?x:a):[...data,x];save();closeM();render()}
 function closeM(){document.getElementById("modal").innerHTML=""}render();
-loadData();
+alert("LOADDATA TERPANGGIL");
 </script></body></html>
