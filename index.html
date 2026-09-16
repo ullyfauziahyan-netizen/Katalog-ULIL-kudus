@@ -34,7 +34,7 @@ data=rows.map(x=>({
   img:x.image_url||""
 }));
 
-render();
+alert("DATA SUPABASE: "+JSON.stringify(rows));
   }catch(e){
   console.error(e);
   data=[];
