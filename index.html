@@ -982,8 +982,20 @@ main{
 <body>
 
 <header>
-  <b>KATALOG ANDA</b>
-  <button onclick="adminLogin()">🔒 Admin</button>
+  <div class="logoArea">
+    <div class="logoPlaceholder">
+      <span id="siteName">Lumbung Pangan Semesta</span>
+    </div>
+  </div>
+
+  <div class="headerActions">
+    <button class="cartHeader" onclick="openCart()">
+      🛒
+      <span id="cartCount">0</span>
+    </button>
+
+    <button class="adminHeader" onclick="adminLogin()">🔒 Admin</button>
+  </div>
 </header>
 
 <main>
