@@ -289,14 +289,19 @@ function render(){
           <div class="name">${esc(x.n)}</div>
 
           <div class="price">
-            Rp ${Number(x.p||0).toLocaleString("id-ID")} / CTN
-          </div>
+  Rp ${Number(x.p||0).toLocaleString("id-ID")} / CTN
+</div>
 
-          ${
-            x.i
-            ? `<div class="meta">Isi: ${esc(x.i)} PCS</div>`
-            : ""
-          }
+${
+  x.i
+  ? `
+    <div class="meta">Isi: ${esc(x.i)} PCS</div>
+    <div class="meta">
+      Estimasi: Rp ${Math.round(Number(x.p||0)/Number(x.i||1)).toLocaleString("id-ID")} / PCS
+    </div>
+  `
+  : ""
+}
 
           ${
             isAdmin
