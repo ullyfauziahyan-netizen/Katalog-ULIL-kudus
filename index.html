@@ -846,6 +846,43 @@ function addToCart(id, type){
     </button>
   `;
 }
+  function checkoutCart(){
+
+  if(!cart.length){
+    alert("Keranjang masih kosong.");
+    return;
+  }
+
+  let pesan = "Halo, saya ingin memesan:%0A%0A";
+  let total = 0;
+
+  cart.forEach((x,i)=>{
+
+    const subtotal = x.price * x.qty;
+    total += subtotal;
+
+    pesan +=
+      (i+1) + ". " + x.name +
+      "%0A" +
+      "   " + (x.type === "pcs" ? "PCS" : "CTN") +
+      " × " + x.qty +
+      " = Rp " + subtotal.toLocaleString("id-ID") +
+      "%0A%0A";
+  });
+
+  pesan +=
+    "TOTAL: Rp " +
+    total.toLocaleString("id-ID") +
+    "%0A%0A" +
+    "Mohon konfirmasi pesanan saya. Terima kasih.";
+
+  const nomor = "6282242246066";
+
+  window.open(
+    "https://wa.me/" + nomor + "?text=" + pesan,
+    "_blank"
+  );
+}
 function esc(s){
 
   return String(s??"")
