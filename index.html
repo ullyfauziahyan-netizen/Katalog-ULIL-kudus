@@ -334,30 +334,60 @@ function esc(s){
 
 }
 
-function adminLogin(){
+async function adminLogin(){
 
-  const p=prompt("Password admin:");
+  const email=prompt("Email admin:");
+  if(!email)return;
 
-  if(p==="admin123"){
+  const password=prompt("Password admin:");
+  if(!password)return;
+
+  try{
+
+    const r=await fetch(
+      "https://kyzoscnnezuzewvknxuh.supabase.co/auth/v1/token?grant_type=password",
+      {
+        method:"POST",
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          email:email,
+          password:password
+        })
+      }
+    );
+
+    const result=await r.json();
+
+    if(!r.ok){
+      alert("Login gagal: "+(result.error_description||result.msg||"Email atau password salah"));
+      return;
+    }
+
+    localStorage.setItem("admin_token",result.access_token);
 
     isAdmin=true;
     document.getElementById("adminbar").style.display="flex";
     render();
 
-  }else if(p!==null){
+  }catch(e){
 
-    alert("Password salah");
+    alert("Gagal terhubung ke Supabase");
 
   }
 }
 
 function logout(){
 
+  localStorage.removeItem("admin_token");
+
   isAdmin=false;
   document.getElementById("adminbar").style.display="none";
   render();
 
-}
+  }
 
 async function addProduct(){
 
@@ -387,7 +417,7 @@ async function addProduct(){
       method:"POST",
       headers:{
         "apikey":SUPABASE_KEY,
-        "Authorization":"Bearer "+SUPABASE_KEY,
+       "Authorization":"Bearer "+localStorage.getItem("admin_token"),
         "Content-Type":"application/json",
         "Prefer":"return=minimal"
       },
