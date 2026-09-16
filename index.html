@@ -815,6 +815,8 @@ function addProduct(){
   document.getElementById("fName").value="";
   document.getElementById("fPrice").value="";
   document.getElementById("fPack").value="";
+  document.getElementById("fPcsEnabled").value="false";
+document.getElementById("fPcsMarkup").value="0";
   document.getElementById("fSupplier").value="";
   document.getElementById("fCategory").value="";
   document.getElementById("fTag1").value="";
@@ -838,6 +840,8 @@ function editProduct(id){
   document.getElementById("fName").value=x.n || "";
   document.getElementById("fPrice").value=x.p || "";
   document.getElementById("fPack").value=x.i || "";
+  document.getElementById("fPcsEnabled").value=x.pcsEnabled ? "true" : "false";
+document.getElementById("fPcsMarkup").value=x.pcsMarkup || 0;
   document.getElementById("fSupplier").value=x.supplier || "";
   document.getElementById("fCategory").value=x.c || "";
   document.getElementById("fTag1").value=x.tag1 || "";
@@ -926,8 +930,13 @@ async function saveProduct(){
 
     pack:document.getElementById("fPack").value.trim(),
 
-    tag1:document.getElementById("fTag1").value.trim(),
+pcs_enabled:document.getElementById("fPcsEnabled").value === "true",
 
+pcs_markup:Number(
+  document.getElementById("fPcsMarkup").value
+) || 0,
+
+tag1:document.getElementById("fTag1").value.trim(),
     tag2:document.getElementById("fTag2").value.trim(),
 
     tag3:document.getElementById("fTag3").value.trim(),
