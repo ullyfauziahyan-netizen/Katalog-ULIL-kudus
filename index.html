@@ -382,6 +382,257 @@ main{
     align-items:flex-start;
   }
 }
+ /* ===== MOBILE UX TOOLBAR ===== */
+
+.mobileTools{
+  display:flex;
+  gap:12px;
+  margin:0 0 14px;
+}
+
+.toolBtn{
+  flex:1;
+  min-height:64px;
+  border:1px solid #ddd;
+  background:#fff;
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  font-size:13px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.toolBtn:active{
+  transform:scale(.97);
+}
+
+.toolIcon{
+  font-size:25px;
+  line-height:1;
+}
+
+.toolBtn.active{
+  border-color:#1683ff;
+  background:#eef7ff;
+  color:#0878ef;
+}
+
+#search{
+  transition:.25s;
+}
+
+.searchHidden{
+  display:none !important;
+}
+
+.searchVisible{
+  display:block !important;
+  animation:searchIn .2s ease;
+}
+
+@keyframes searchIn{
+  from{
+    opacity:0;
+    transform:translateY(-8px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+/* FILTER & SORT SHEET */
+
+.uxOverlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  z-index:9998;
+  display:none;
+}
+
+.uxOverlay.show{
+  display:block;
+}
+
+.uxSheet{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  max-height:82vh;
+  background:#fff;
+  border-radius:24px 24px 0 0;
+  z-index:9999;
+  padding:14px 18px 24px;
+  overflow:auto;
+  box-shadow:0 -8px 30px rgba(0,0,0,.2);
+  animation:sheetUp .25s ease;
+}
+
+@keyframes sheetUp{
+  from{
+    transform:translateY(100%);
+  }
+  to{
+    transform:translateY(0);
+  }
+}
+
+.sheetHandle{
+  width:42px;
+  height:5px;
+  background:#bbb;
+  border-radius:10px;
+  margin:0 auto 14px;
+}
+
+.sheetHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.sheetHeader strong{
+  font-size:22px;
+}
+
+.sheetClose{
+  border:0;
+  background:none;
+  font-size:28px;
+  cursor:pointer;
+}
+
+.filterTabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.filterTab{
+  flex:1;
+  padding:12px 8px;
+  border:1px solid #ddd;
+  background:#fff;
+  border-radius:12px;
+  font-size:15px;
+}
+
+.filterTab.active{
+  background:#171717;
+  color:#fff;
+}
+
+.filterSearch{
+  width:100%;
+  box-sizing:border-box;
+  padding:13px 15px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+.filterList{
+  max-height:45vh;
+  overflow:auto;
+}
+
+.filterOption{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 2px;
+  font-size:16px;
+}
+
+.filterOption input{
+  width:20px;
+  height:20px;
+}
+
+.sheetAction{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#171717;
+  color:#fff;
+  font-size:16px;
+  margin-top:14px;
+}
+
+.sheetReset{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  background:#fff;
+  font-size:16px;
+  margin-top:8px;
+}
+
+/* SORT */
+
+.sortOption{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 4px;
+  border-bottom:1px solid #eee;
+  font-size:16px;
+}
+
+.sortOption input{
+  width:20px;
+  height:20px;
+}
+
+.activeFilters{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:0 0 12px;
+}
+
+.filterChip{
+  background:#eaf4ff;
+  color:#1674d1;
+  border-radius:20px;
+  padding:7px 11px;
+  font-size:13px;
+}
+
+.filterChip button{
+  border:0;
+  background:none;
+  color:inherit;
+  margin-left:4px;
+  cursor:pointer;
+}
+
+@media(max-width:700px){
+
+  .mobileTools{
+    margin-left:0;
+    margin-right:0;
+  }
+
+  .toolBtn{
+    min-height:60px;
+  }
+
+  .uxSheet{
+    max-height:88vh;
+  }
+
+} 
 </style>
 </head>
 
