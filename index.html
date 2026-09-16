@@ -921,15 +921,17 @@ main{
 
   /* 1 KOLOM, PRODUK BESAR */
   .grid{
-    height:calc(100vh - 154px);
-    margin:0 !important;
-    display:grid;
-    grid-template-columns:1fr !important;
-    gap:14px;
-    overflow-y:auto !important;
-    overflow-x:hidden !important;
-    padding:0 8px 30px;
-    align-content:start;
+  height:calc(100vh - 154px);
+  margin:0 !important;
+  display:grid;
+  grid-template-columns:repeat(2,1fr) !important;
+  grid-auto-rows:max-content;
+  gap:14px;
+  overflow-y:auto !important;
+  overflow-x:hidden !important;
+  padding:0 8px 30px;
+  align-content:start !important;
+  align-items:start !important;
   }
 
   .card{
