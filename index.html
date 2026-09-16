@@ -802,6 +802,51 @@ main{
   }
 
 }
+ /* ===== FIX FINAL MOBILE SCROLL ===== */
+
+@media (max-width:700px){
+
+  html,
+  body{
+    height:100%;
+    overflow:hidden !important;
+    margin:0;
+  }
+
+  header{
+    flex-shrink:0;
+  }
+
+  main{
+    height:calc(100vh - 64px);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden !important;
+  }
+
+  /* Semua bagian atas tetap */
+  .hero,
+  .mobileTools,
+  .search,
+  .cats,
+  .cart{
+    flex-shrink:0;
+    position:static !important;
+    top:auto !important;
+    z-index:auto !important;
+  }
+
+  /* HANYA PRODUK YANG SCROLL */
+  .grid{
+    flex:1 1 auto;
+    min-height:0;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    padding-bottom:30px;
+    align-content:start;
+  }
+
+} 
 </style>
 </head>
 
