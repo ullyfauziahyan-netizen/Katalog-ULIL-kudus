@@ -662,11 +662,31 @@ main{
 
     <div id="adminCount" style="margin:8px 0 12px"></div>
 
-    <input
-      id="adminSearch"
-      placeholder="🔎 Cari produk..."
-      oninput="renderAdminList()"
-    >
+    <div class="mobileTools">
+
+  <button class="toolBtn" id="searchBtn" onclick="toggleSearch()">
+    <span class="toolIcon">🔍</span>
+    <span>Cari</span>
+  </button>
+
+  <button class="toolBtn" id="filterBtn" onclick="openFilter()">
+    <span class="toolIcon">📁</span>
+    <span>Filter</span>
+  </button>
+
+  <button class="toolBtn" id="sortBtn" onclick="openSort()">
+    <span class="toolIcon">↕️</span>
+    <span>Urutkan</span>
+  </button>
+
+</div>
+
+<input
+  id="search"
+  class="search searchHidden"
+  placeholder="Cari produk..."
+  oninput="render()"
+>
 
     <div class="adminFilters">
 
