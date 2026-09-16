@@ -371,7 +371,24 @@ main{
         <label>Isi per Karton</label>
         <input id="fPack" placeholder="Contoh: 6">
       </div>
+<div class="formGroup">
+  <label>Penjualan PCS</label>
+  <select id="fPcsEnabled">
+    <option value="false">OFF — Hanya CTN</option>
+    <option value="true">ON — Bisa PCS</option>
+  </select>
+</div>
 
+<div class="formGroup">
+  <label>Markup PCS (%)</label>
+  <input
+    id="fPcsMarkup"
+    type="number"
+    min="0"
+    step="0.1"
+    placeholder="Contoh: 10"
+  >
+</div>
       <div class="formGroup">
         <label>Supplier</label>
         <input id="fSupplier" placeholder="Nama supplier">
