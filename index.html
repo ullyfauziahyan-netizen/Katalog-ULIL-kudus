@@ -31,10 +31,9 @@ data=rows.map(x=>({
 }));
 render();
   }catch(e){
-    console.error(e);
-    data=[];
-    render();
-    alert("Gagal mengambil data dari Supabase");
+  console.error(e);
+  data=[];
+  alert("ERROR SUPABASE: "+e.message);
   }
 }
 const esc=s=>String(s??"").replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]));
