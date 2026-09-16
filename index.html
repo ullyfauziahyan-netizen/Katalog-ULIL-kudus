@@ -65,5 +65,6 @@ function photo(el){let r=new FileReader;r.onload=()=>{window.img=r.result;docume
 function saveEdit(id){let x={id:id||Date.now(),n:document.getElementById("n").value,b:document.getElementById("b").value,c:document.getElementById("c").value,p:+document.getElementById("p").value||0,i:+document.getElementById("i").value||1,img:window.img||""};data=id?data.map(a=>a.id==id?x:a):[...data,x];save();closeM();render()}
 function closeM(){document.getElementById("modal").innerHTML=""}render();
 document.body.insertAdjacentHTML("beforeend","<h2 style='padding:20px;color:red'>LOADDATA TERPANGGIL</h2>");
+alert("LOADDATA DIPANGGIL");
 loadData();
 </script></body></html>
