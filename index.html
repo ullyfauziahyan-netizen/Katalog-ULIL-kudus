@@ -485,10 +485,12 @@ async function loadData(){
   p:x.price_ctn || 0,
   i:x.pack || "",
   supplier:x.supplier || "",
-  tag1:x.tag1 || "",
-  tag2:x.tag2 || "",
-  tag3:x.tag3 || "",
-  img:x.image_url || ""
+tag1:x.tag1 || "",
+tag2:x.tag2 || "",
+tag3:x.tag3 || "",
+pcsEnabled:x.pcs_enabled || false,
+pcsMarkup:Number(x.pcs_markup || 0),
+img:x.image_url || ""
 }));
 
     render();
