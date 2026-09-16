@@ -899,24 +899,6 @@ main{
   </div>
 
 </div>
-<div class="mobileTools">
-
-  <button class="toolBtn" onclick="toggleSearch()">
-    <span class="toolIcon">🔍</span>
-    <span>Cari</span>
-  </button>
-
-  <button class="toolBtn" onclick="openFilter()">
-    <span class="toolIcon">📁</span>
-    <span>Filter</span>
-  </button>
-
-  <button class="toolBtn" onclick="openSort()">
-    <span class="toolIcon">↕️</span>
-    <span>Urutkan</span>
-  </button>
-
-</div>
 
 <div class="mobileTools">
 
@@ -1286,29 +1268,31 @@ function renderAdminList(){
 }
 function render(){
 
-  const q=
-    document.getElementById("search").value
-    .toLowerCase();
+  const searchEl=document.getElementById("search");
+  const q=(searchEl?.value||"").toLowerCase().trim();
 
-  const cats=
-    ["Semua",
-     ...new Set(
-       data.map(x=>x.c).filter(Boolean)
-     )
-    ];
+  const cats=[
+    "Semua",
+    ...new Set(
+      data.map(x=>x.c).filter(Boolean)
+    )
+  ];
 
   document.getElementById("cats").innerHTML=
-    cats.map(c=>
-      `<button class="${selectedCategory===c?'active':''}"
-       onclick="selectedCategory='${esc(c)}';render()">
-       ${esc(c)}
-       </button>`
-    ).join("");
+    cats.map(c=>`
+      <button
+        class="${selectedCategory===c?'active':''}"
+        onclick="selectedCategory='${esc(c)}';render()">
+        ${esc(c)}
+      </button>
+    `).join("");
 
-  const filtered=data.filter(x=>{
+  let filtered=data.filter(x=>{
 
     const cocokSearch=
-      (x.n+" "+x.b).toLowerCase().includes(q);
+      (x.n+" "+x.b+" "+x.supplier)
+      .toLowerCase()
+      .includes(q);
 
     const cocokCat=
       selectedCategory==="Semua" ||
@@ -1318,74 +1302,158 @@ function render(){
 
   });
 
+  /* =========================
+     SORTING
+     ========================= */
+
+  if(currentSort==="priceLow"){
+
+    filtered.sort(
+      (a,b)=>Number(a.p||0)-Number(b.p||0)
+    );
+
+  }
+
+  else if(currentSort==="priceHigh"){
+
+    filtered.sort(
+      (a,b)=>Number(b.p||0)-Number(a.p||0)
+    );
+
+  }
+
+  else if(currentSort==="nameAZ"){
+
+    filtered.sort(
+      (a,b)=>
+        String(a.n||"").localeCompare(
+          String(b.n||""),
+          "id",
+          {numeric:true}
+        )
+    );
+
+  }
+
+  else if(currentSort==="nameZA"){
+
+    filtered.sort(
+      (a,b)=>
+        String(b.n||"").localeCompare(
+          String(a.n||""),
+          "id",
+          {numeric:true}
+        )
+    );
+
+  }
+
+  /* =========================
+     EMPTY
+     ========================= */
+
   if(!filtered.length){
 
     document.getElementById("grid").innerHTML=
       '<div class="empty">Belum ada produk.</div>';
 
     return;
+
   }
 
+  /* =========================
+     PRODUCT GRID
+     ========================= */
+
   document.getElementById("grid").innerHTML=
+
     filtered.map(x=>`
 
       <article class="card">
 
         <div class="pic">
+
           ${
             x.img
-            ? `<img src="${esc(x.img)}"
-                    onerror="this.style.display='none'">`
+            ? `
+              <img
+                src="${esc(x.img)}"
+                onerror="this.style.display='none'">
+            `
             : "📦"
           }
+
         </div>
 
         <div class="cardbody">
 
-          <div class="brand">${esc(x.b)}</div>
+          <div class="brand">
+            ${esc(x.b)}
+          </div>
 
-          <div class="name">${esc(x.n)}</div>
+          <div class="name">
+            ${esc(x.n)}
+          </div>
 
           <div class="price">
-  Rp ${Number(x.p||0).toLocaleString("id-ID")} / CTN
-</div>
+            Rp ${Number(x.p||0).toLocaleString("id-ID")} / CTN
+          </div>
 
-${
-  x.i
-  ? `
-    <div class="meta">Isi: ${esc(x.i)} PCS</div>
-    <div class="meta">
-      Estimasi: Rp ${Math.round(Number(x.p||0)/Number(x.i||1)).toLocaleString("id-ID")} / PCS
-    </div>
-  `
-  : ""
-}
-${
-  `<div style="margin-top:12px">
-    <button onclick="addToCart(${x.id},'ctn')">
-      🛒 Tambah CTN
-    </button>
-    ${
-      x.pcsEnabled && x.i
-      ? `
-        <button onclick="addToCart(${x.id},'pcs')">
-          🛒 Tambah PCS
-        </button>
-      `
-      : ""
-    }
-  </div>`
-}
+          ${
+            x.i
+            ? `
+              <div class="meta">
+                Isi: ${esc(x.i)} PCS
+              </div>
+
+              <div class="meta">
+                Estimasi:
+                Rp ${Math.round(
+                  Number(x.p||0) /
+                  Number(x.i||1)
+                ).toLocaleString("id-ID")} / PCS
+              </div>
+            `
+            : ""
+          }
+
+          <div style="margin-top:12px">
+
+            <button
+              onclick="addToCart(${x.id},'ctn')">
+              🛒 Tambah CTN
+            </button>
+
+            ${
+              x.pcsEnabled && x.i
+              ? `
+                <button
+                  onclick="addToCart(${x.id},'pcs')">
+                  🛒 Tambah PCS
+                </button>
+              `
+              : ""
+            }
+
+          </div>
+
           ${
             isAdmin
-            ? `<div style="margin-top:12px">
-                <button onclick="editProduct(${x.id})">
+            ? `
+              <div style="margin-top:12px">
+
+                <button
+                  onclick="editProduct(${x.id})">
                   ✏️ Edit
                 </button>
-                <button onclick="deleteProduct(${x.id})">
+
+                <button
+                  onclick="deleteProduct(${x.id})">
                   🗑️ Hapus
                 </button>
-              </div>`
+
+              </div>
+            `
             : ""
           }
 
@@ -1394,6 +1462,7 @@ ${
       </article>
 
     `).join("");
+
 }
 let cart = [];
 
