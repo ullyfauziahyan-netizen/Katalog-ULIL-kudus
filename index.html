@@ -133,6 +133,166 @@ main{
   .grid{grid-template-columns:repeat(2,1fr)}
   .hero h1{font-size:34px}
 }
+  /* ADMIN FORM */
+.adminList{
+  margin-top:20px;
+}
+
+.adminTools{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:20px;
+}
+
+.adminTools input{
+  width:100%;
+  box-sizing:border-box;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  font-size:16px;
+  margin-bottom:10px;
+}
+
+.adminFilters{
+  display:flex;
+  gap:8px;
+  overflow:auto;
+}
+
+.adminFilters button{
+  white-space:nowrap;
+  padding:9px 12px;
+  border:1px solid #ddd;
+  border-radius:10px;
+  background:#fff;
+}
+
+.adminRow{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+  display:flex;
+  gap:12px;
+  align-items:center;
+}
+
+.adminThumb{
+  width:60px;
+  height:60px;
+  border-radius:10px;
+  object-fit:contain;
+  background:#f5f5f5;
+}
+
+.adminInfo{
+  flex:1;
+  min-width:0;
+}
+
+.adminName{
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+.adminStatus{
+  font-size:13px;
+  margin-top:5px;
+}
+
+.statusOK{
+  color:green;
+}
+
+.statusMissing{
+  color:#d97706;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+  z-index:100;
+}
+
+.modalBox{
+  background:#fff;
+  width:100%;
+  max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:18px;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+.formGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.formGroup{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.formGroup.full{
+  grid-column:1/-1;
+}
+
+.formGroup input{
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:9px;
+  font-size:15px;
+  box-sizing:border-box;
+}
+
+.preview{
+  width:100%;
+  height:160px;
+  object-fit:contain;
+  background:#f5f5f5;
+  border-radius:10px;
+  margin-top:8px;
+}
+
+.modalButtons{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+}
+
+.modalButtons button{
+  flex:1;
+  padding:12px;
+  border:0;
+  border-radius:10px;
+}
+
+@media(max-width:700px){
+  .formGrid{
+    grid-template-columns:1fr;
+  }
+
+  .formGroup.full{
+    grid-column:auto;
+  }
+
+  .adminRow{
+    align-items:flex-start;
+  }
+}
 </style>
 </head>
 
@@ -154,7 +314,121 @@ main{
   <button onclick="addProduct()">➕ Tambah Produk</button>
   <button onclick="logout()">Keluar</button>
 </div>
+<div id="adminPanel" style="display:none">
 
+  <div class="adminTools">
+
+    <b>Daftar Produk Admin</b>
+
+    <div id="adminCount" style="margin:8px 0 12px"></div>
+
+    <input
+      id="adminSearch"
+      placeholder="🔎 Cari produk..."
+      oninput="renderAdminList()"
+    >
+
+    <div class="adminFilters">
+
+      <button onclick="adminFilter='Semua';renderAdminList()">
+        Semua
+      </button>
+
+      <button onclick="adminFilter='Belum';renderAdminList()">
+        ⚠️ Belum Lengkap
+      </button>
+
+      <button onclick="adminFilter='Lengkap';renderAdminList()">
+        ✅ Lengkap
+      </button>
+
+    </div>
+
+  </div>
+
+  <div id="adminList" class="adminList"></div>
+
+</div>
+  <div id="productModal" class="modal">
+
+  <div class="modalBox">
+
+    <h2 id="formTitle">Tambah Produk</h2>
+
+    <div class="formGrid">
+
+      <div class="formGroup full">
+        <label>Nama Produk</label>
+        <input id="fName" placeholder="Nama produk">
+      </div>
+
+      <div class="formGroup">
+        <label>Harga CTN</label>
+        <input id="fPrice" type="number" placeholder="Contoh: 258000">
+      </div>
+
+      <div class="formGroup">
+        <label>Isi per Karton</label>
+        <input id="fPack" placeholder="Contoh: 6">
+      </div>
+
+      <div class="formGroup">
+        <label>Supplier</label>
+        <input id="fSupplier" placeholder="Nama supplier">
+      </div>
+
+      <div class="formGroup">
+        <label>Category</label>
+        <input id="fCategory" placeholder="Contoh: Minyak Goreng">
+      </div>
+
+      <div class="formGroup">
+        <label>Tag 1</label>
+        <input id="fTag1" placeholder="Tag pertama">
+      </div>
+
+      <div class="formGroup">
+        <label>Tag 2</label>
+        <input id="fTag2" placeholder="Tag kedua">
+      </div>
+
+      <div class="formGroup">
+        <label>Tag 3</label>
+        <input id="fTag3" placeholder="Tag ketiga">
+      </div>
+
+      <div class="formGroup full">
+        <label>URL Gambar</label>
+        <input
+          id="fImage"
+          placeholder="https://..."
+          oninput="previewImage()"
+        >
+
+        <img
+          id="imagePreview"
+          class="preview"
+          style="display:none"
+        >
+      </div>
+
+    </div>
+
+    <div class="modalButtons">
+
+      <button onclick="closeProductForm()">
+        Batal
+      </button>
+
+      <button onclick="saveProduct()">
+        💾 Simpan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 <input
   id="search"
   class="search"
@@ -204,14 +478,18 @@ async function loadData(){
     const rows=await r.json();
 
     data=rows.map(x=>({
-      id:x.id,
-      n:x.name || "",
-      b:x.brand || "",
-      c:x.category || "",
-      p:x.price_ctn || 0,
-      i:x.pack || "",
-      img:x.image_url || ""
-    }));
+  id:x.id,
+  n:x.name || "",
+  b:x.brand || "",
+  c:x.category || "",
+  p:x.price_ctn || 0,
+  i:x.pack || "",
+  supplier:x.supplier || "",
+  tag1:x.tag1 || "",
+  tag2:x.tag2 || "",
+  tag3:x.tag3 || "",
+  img:x.image_url || ""
+}));
 
     render();
 
@@ -225,7 +503,124 @@ async function loadData(){
 
   }
 }
+let adminFilter="Semua";
 
+function renderAdminList(){
+
+  const list=document.getElementById("adminList");
+  const count=document.getElementById("adminCount");
+  const search=document.getElementById("adminSearch");
+
+  if(!list)return;
+
+  const q=(search?.value||"").toLowerCase().trim();
+
+  const filtered=data.filter(x=>{
+
+    const cocokCari=
+      (x.n+" "+x.b+" "+x.supplier+" "+x.c)
+      .toLowerCase()
+      .includes(q);
+
+    const lengkap=
+      x.i &&
+      x.supplier &&
+      x.c &&
+      x.tag1 &&
+      x.tag2 &&
+      x.tag3;
+
+    if(adminFilter==="Lengkap" && !lengkap)return false;
+    if(adminFilter==="Belum" && lengkap)return false;
+
+    return cocokCari;
+
+  });
+
+  count.innerHTML=
+    "Total: <b>"+data.length+
+    "</b> produk | Ditampilkan: <b>"+
+    filtered.length+"</b>";
+
+  if(!filtered.length){
+
+    list.innerHTML=
+      '<div class="empty">Tidak ada produk.</div>';
+
+    return;
+  }
+
+  list.innerHTML=filtered.map(x=>{
+
+    const lengkap=
+      x.i &&
+      x.supplier &&
+      x.c &&
+      x.tag1 &&
+      x.tag2 &&
+      x.tag3;
+
+    return `
+
+      <div class="adminRow">
+
+        <img
+          class="adminThumb"
+          src="${esc(x.img||"")}"
+          onerror="this.style.display='none'"
+        >
+
+        <div class="adminInfo">
+
+          <div class="adminName">
+            ${esc(x.n)}
+          </div>
+
+          <div>
+            Rp ${Number(x.p||0).toLocaleString("id-ID")} / CTN
+          </div>
+
+          <div>
+            Supplier: ${esc(x.supplier||"-")}
+          </div>
+
+          <div>
+            Kategori: ${esc(x.c||"-")}
+          </div>
+
+          <div>
+            Isi: ${esc(x.i||"-")} |
+            Tag:
+            ${esc(x.tag1||"-")},
+            ${esc(x.tag2||"-")},
+            ${esc(x.tag3||"-")}
+          </div>
+
+          <div class="adminStatus ${
+            lengkap ? "statusOk" : "statusMissing"
+          }">
+
+            ${
+              lengkap
+              ? "✅ Lengkap"
+              : "⚠️ Belum Lengkap"
+            }
+
+          </div>
+
+        </div>
+
+        <button onclick="editProduct(${x.id})">
+          ✏️ Edit
+        </button>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+}
 function render(){
 
   const q=
@@ -369,8 +764,10 @@ async function adminLogin(){
     localStorage.setItem("admin_token",result.access_token);
 
     isAdmin=true;
-    document.getElementById("adminbar").style.display="flex";
-    render();
+document.getElementById("adminbar").style.display="flex";
+document.getElementById("adminPanel").style.display="block";
+renderAdminList();
+render();
 
   }catch(e){
 
@@ -384,107 +781,57 @@ function logout(){
   localStorage.removeItem("admin_token");
 
   isAdmin=false;
-  document.getElementById("adminbar").style.display="none";
-  render();
+document.getElementById("adminbar").style.display="none";
+document.getElementById("adminPanel").style.display="none";
+render();
 
   }
 
-async function addProduct(){
+function addProduct(){
 
   if(!isAdmin)return;
 
-  const name=prompt("Nama produk:");
-  if(!name)return;
+  document.getElementById("formTitle").textContent="Tambah Produk";
 
-  const brand=prompt("Brand:");
-  const category=prompt("Kategori:");
-  const price=prompt("Harga CTN:");
-  const pack=prompt("Isi per CTN:");
-  const image=prompt("URL gambar (boleh kosong):");
+  document.getElementById("fName").value="";
+  document.getElementById("fPrice").value="";
+  document.getElementById("fPack").value="";
+  document.getElementById("fSupplier").value="";
+  document.getElementById("fCategory").value="";
+  document.getElementById("fTag1").value="";
+  document.getElementById("fTag2").value="";
+  document.getElementById("fTag3").value="";
+  document.getElementById("fImage").value="";
+  document.getElementById("imagePreview").style.display="none";
 
-  const payload={
-    name:name,
-    brand:brand||"",
-    category:category||"",
-    price_ctn:Number(price)||0,
-    pack:pack||"",
-    image_url:image||""
-  };
+  window.editingProductId=null;
 
-  const r=await fetch(
-    SUPABASE_URL+"products",
-    {
-      method:"POST",
-      headers:{
-        "apikey":SUPABASE_KEY,
-       "Authorization":"Bearer "+localStorage.getItem("admin_token"),
-        "Content-Type":"application/json",
-        "Prefer":"return=minimal"
-      },
-      body:JSON.stringify(payload)
-    }
-  );
-
-  if(!r.ok){
-
-    alert("Gagal menambah produk:\n"+await r.text());
-    return;
-
-  }
-
-  await loadData();
-  alert("Produk berhasil ditambahkan.");
-
+  document.getElementById("productModal").style.display="flex";
 }
-
-async function editProduct(id){
+function editProduct(id){
 
   const x=data.find(a=>a.id==id);
 
   if(!x)return;
 
-  const name=prompt("Nama produk:",x.n);
-  if(!name)return;
+  document.getElementById("formTitle").textContent="Edit Produk";
 
-  const brand=prompt("Brand:",x.b);
-  const category=prompt("Kategori:",x.c);
-  const price=prompt("Harga CTN:",x.p);
-  const pack=prompt("Isi per CTN:",x.i);
-  const image=prompt("URL gambar:",x.img);
+  document.getElementById("fName").value=x.n || "";
+  document.getElementById("fPrice").value=x.p || "";
+  document.getElementById("fPack").value=x.i || "";
+  document.getElementById("fSupplier").value=x.supplier || "";
+  document.getElementById("fCategory").value=x.c || "";
+  document.getElementById("fTag1").value=x.tag1 || "";
+  document.getElementById("fTag2").value=x.tag2 || "";
+  document.getElementById("fTag3").value=x.tag3 || "";
+  document.getElementById("fImage").value=x.img || "";
 
-  const payload={
-    name:name,
-    brand:brand||"",
-    category:category||"",
-    price_ctn:Number(price)||0,
-    pack:pack||"",
-    image_url:image||""
-  };
+  window.editingProductId=id;
 
-  const r=await fetch(
-    SUPABASE_URL+"products?id=eq."+id,
-    {
-      method:"PATCH",
-      headers:{
-        "apikey":SUPABASE_KEY,
-        "Authorization":"Bearer "+localStorage.getItem("admin_token"),
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify(payload)
+  previewImage();
+
+  document.getElementById("productModal").style.display="flex";
     }
-  );
-
-  if(!r.ok){
-
-    alert("Gagal mengedit:\n"+await r.text());
-    return;
-
-  }
-
-  await loadData();
-  alert("Produk berhasil diubah.");
-
-}
 
 async function deleteProduct(id){
 
@@ -511,7 +858,135 @@ async function deleteProduct(id){
   await loadData();
 
 }
+function previewImage(){
 
+  const url=document.getElementById("fImage").value.trim();
+  const img=document.getElementById("imagePreview");
+
+  if(url){
+    img.src=url;
+    img.style.display="block";
+  }else{
+    img.src="";
+    img.style.display="none";
+  }
+}
+
+
+function closeProductForm(){
+
+  document.getElementById("productModal").style.display="none";
+
+}
+
+
+async function saveProduct(){
+
+  if(!isAdmin)return;
+
+  const name=document.getElementById("fName").value.trim();
+
+  if(!name){
+    alert("Nama produk wajib diisi.");
+    return;
+  }
+
+  const payload={
+
+    name:name,
+
+    brand:document.getElementById("fSupplier").value.trim(),
+
+    supplier:document.getElementById("fSupplier").value.trim(),
+
+    category:document.getElementById("fCategory").value.trim(),
+
+    price_ctn:Number(
+      document.getElementById("fPrice").value
+    ) || 0,
+
+    pack:document.getElementById("fPack").value.trim(),
+
+    tag1:document.getElementById("fTag1").value.trim(),
+
+    tag2:document.getElementById("fTag2").value.trim(),
+
+    tag3:document.getElementById("fTag3").value.trim(),
+
+    image_url:document.getElementById("fImage").value.trim()
+
+  };
+
+
+  let r;
+
+
+  if(window.editingProductId){
+
+    r=await fetch(
+      SUPABASE_URL+
+      "products?id=eq."+
+      window.editingProductId,
+      {
+        method:"PATCH",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer "+
+            localStorage.getItem("admin_token"),
+          "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(payload)
+      }
+    );
+
+  }else{
+
+    r=await fetch(
+      SUPABASE_URL+"products",
+      {
+        method:"POST",
+
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":
+            "Bearer "+
+            localStorage.getItem("admin_token"),
+          "Content-Type":"application/json",
+          "Prefer":"return=minimal"
+        },
+
+        body:JSON.stringify(payload)
+      }
+    );
+
+  }
+
+
+  if(!r.ok){
+
+    alert(
+      "Gagal menyimpan produk:\n"+
+      await r.text()
+    );
+
+    return;
+  }
+
+
+  closeProductForm();
+
+  await loadData();
+
+  alert(
+    window.editingProductId
+    ? "Produk berhasil diubah."
+    : "Produk berhasil ditambahkan."
+  );
+
+}
 loadData();
 
 </script>
