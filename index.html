@@ -752,6 +752,54 @@ main{
   }
 
 }
+  /* ===== FREEZE HEADER, SCROLL PRODUK SAJA ===== */
+
+html,
+body{
+  height:100%;
+  overflow:hidden;
+}
+
+main{
+  height:calc(100vh - 64px);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* Matikan sticky lama */
+.search,
+.cats{
+  position:static !important;
+  top:auto !important;
+  z-index:auto !important;
+}
+
+/* Area produk yang bergerak */
+.grid{
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-bottom:30px;
+  align-content:start;
+}
+
+/* Tombol pencarian/filter/urutkan tetap */
+.mobileTools{
+  flex-shrink:0;
+}
+
+/* Pencarian dan kategori tetap */
+.search,
+.cats{
+  flex-shrink:0;
+}
+
+/* Cart tetap di atas area produk */
+.cart{
+  flex-shrink:0;
+}
 </style>
 </head>
 
