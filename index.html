@@ -1046,6 +1046,39 @@ main{
   object-fit:contain;
   display:block;
 }
+ /* RAPikan HEADER MOBILE */
+.logoPlaceholder{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logoPlaceholder img{
+  width:42px;
+  height:42px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.logoPlaceholder span{
+  font-size:20px;
+  white-space:nowrap;
+}
+
+@media(max-width:700px){
+  .logoPlaceholder span{
+    font-size:18px;
+  }
+
+  .logoPlaceholder img{
+    width:42px;
+    height:42px;
+  }
+
+  .headerActions{
+    flex-shrink:0;
+  }
+} 
 </style>
 </head>
 
