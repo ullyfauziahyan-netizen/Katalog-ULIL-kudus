@@ -1119,15 +1119,15 @@ main{
         <input id="fPack" placeholder="Contoh: 6">
       </div>
 <div class="formGroup">
-  <label>Penjualan PCS</label>
+  <label>Penjualan PACK</label>
   <select id="fPcsEnabled">
     <option value="false">OFF — Hanya CTN</option>
-    <option value="true">ON — Bisa PCS</option>
+    <option value="true">ON — Bisa PACK</option>
   </select>
 </div>
 
 <div class="formGroup">
-  <label>Markup PCS (%)</label>
+  <label>Markup PACK (%)</label>
   <input
     id="fPcsMarkup"
     type="number"
@@ -1744,7 +1744,7 @@ function render(){
             x.i
             ? `
               <div class="meta">
-                Isi: ${esc(x.i)} PCS
+                Isi: ${esc(x.i)} PACK
               </div>
 
               <div class="meta">
@@ -1752,7 +1752,7 @@ function render(){
                 Rp ${Math.round(
                   Number(x.p||0) /
                   Number(x.i||1)
-                ).toLocaleString("id-ID")} / PCS
+                ).toLocaleString("id-ID")} / PACK
               </div>
             `
             : ""
@@ -1770,7 +1770,7 @@ function render(){
               ? `
                 <button
                   onclick="addToCart(${x.id},'pcs')">
-                  🛒 Tambah PCS
+                  🛒 Tambah PACK
                 </button>
               `
               : ""
@@ -1999,7 +1999,7 @@ function renderCart(){
     pesan +=
       (i+1) + ". " + x.name +
       "%0A" +
-      "   " + (x.type === "pcs" ? "PCS" : "CTN") +
+      "   " + (x.type === "pcs" ? "PACK" : "CTN") +
       " × " + x.qty +
       " = Rp " + subtotal.toLocaleString("id-ID") +
       "%0A%0A";
