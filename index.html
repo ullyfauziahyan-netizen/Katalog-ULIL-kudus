@@ -1065,6 +1065,7 @@ main{
 
 <div id="adminbar" class="adminbar">
   <button onclick="addProduct()">➕ Tambah Produk</button>
+  <button onclick="openSettings()">⚙️ Pengaturan Katalog</button>
   <button onclick="logout()">Keluar</button>
 </div>
 <div id="adminPanel" style="display:none">
@@ -2135,6 +2136,71 @@ document.getElementById("fPcsMarkup").value="0";
   window.editingProductId=null;
 
   document.getElementById("productModal").style.display="flex";
+}
+  function openSettings(){
+
+  if(!isAdmin) return;
+
+  const name = prompt(
+    "Nama katalog:",
+    document.getElementById("siteName")?.textContent || "Lumbung Pangan Semesta"
+  );
+
+  if(name === null) return;
+
+  const logo = prompt(
+    "URL logo katalog (kosongkan jika belum ada):",
+    ""
+  );
+
+  if(logo === null) return;
+
+  updateSiteSettings(name.trim(), logo.trim());
+}
+
+  async function updateSiteSettings(name, logo){
+
+  try{
+
+    const r = await fetch(
+      SUPABASE_URL + "site_settings?id=eq.1",
+      {
+        method:"PATCH",
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":"Bearer " + localStorage.getItem("admin_token"),
+          "Content-Type":"application/json",
+          "Prefer":"return=minimal"
+        },
+        body:JSON.stringify({
+          site_name:name || "Lumbung Pangan Semesta",
+          logo_url:logo || ""
+        })
+      }
+    );
+
+    if(!r.ok){
+      throw new Error(await r.text());
+    }
+
+    const siteName =
+      document.getElementById("siteName");
+
+    if(siteName){
+      siteName.textContent =
+        name || "Lumbung Pangan Semesta";
+    }
+
+    alert("Pengaturan katalog berhasil disimpan.");
+
+  }catch(e){
+
+    console.error(e);
+
+    alert("Gagal menyimpan pengaturan katalog.");
+
+  }
+
 }
 function editProduct(id){
 
