@@ -1884,7 +1884,33 @@ function renderCart(){
 
   let total = 0;
 
-  el.innerHTML = cart.map((x,i)=>{
+el.innerHTML = `
+  <div style="
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+  ">
+    <button
+      onclick="openCart()"
+      style="
+        padding:10px 16px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        background:#fff;
+        font-size:15px;
+      "
+    >
+      ← Kembali
+    </button>
+
+    <strong style="font-size:20px;">
+      Keranjang
+    </strong>
+
+    <div style="width:80px;"></div>
+  </div>
+` + cart.map((x,i)=>{
 
     const subtotal = x.price * x.qty;
     total += subtotal;
