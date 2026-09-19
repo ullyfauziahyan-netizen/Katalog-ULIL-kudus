@@ -1034,6 +1034,18 @@ main{
     border-radius:18px;
   }
 }
+  .logoPlaceholder{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logoPlaceholder img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  display:none;
+}
 </style>
 </head>
 
@@ -1194,7 +1206,61 @@ main{
   </div>
 
 </div>
+<div id="settingsModal" class="modal">
 
+  <div class="modalBox">
+
+    <h2>⚙️ Pengaturan Katalog</h2>
+
+    <div class="formGroup full">
+      <label>Nama Katalog</label>
+      <input
+        id="settingsName"
+        placeholder="Contoh: Distributor Snack Kudus"
+      >
+    </div>
+
+    <div class="formGroup full">
+
+      <label>Logo Katalog</label>
+
+      <input
+        id="settingsLogoFile"
+        type="file"
+        accept="image/*"
+        onchange="previewSettingsLogo(this)"
+      >
+
+      <img
+        id="settingsLogoPreview"
+        style="
+          display:none;
+          width:90px;
+          height:90px;
+          object-fit:contain;
+          margin-top:10px;
+          border:1px solid #ddd;
+          border-radius:12px;
+        "
+      >
+
+    </div>
+
+    <div class="modalButtons">
+
+      <button onclick="closeSettings()">
+        Batal
+      </button>
+
+      <button onclick="saveSettings()">
+        💾 Simpan
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 <div class="mobileTools">
 
   <button class="toolBtn" onclick="openSearch()">
@@ -1371,7 +1437,12 @@ let currentSort="relevance";
       name.textContent =
         settings.site_name || "Lumbung Pangan Semesta";
     }
+const logo = document.getElementById("siteLogo");
 
+if(logo && settings.logo_url){
+  logo.src = settings.logo_url;
+  logo.style.display = "block";
+}
   }catch(e){
 
     console.error("Gagal memuat pengaturan katalog:",e);
@@ -2141,23 +2212,33 @@ document.getElementById("fPcsMarkup").value="0";
 
   if(!isAdmin) return;
 
-  const name = prompt(
-    "Nama katalog:",
-    document.getElementById("siteName")?.textContent || "Lumbung Pangan Semesta"
-  );
+  const modal = document.getElementById("settingsModal");
+  if(!modal) return;
 
-  if(name === null) return;
+  const nameInput = document.getElementById("settingsName");
+  const logoPreview = document.getElementById("settingsLogoPreview");
+  const fileInput = document.getElementById("settingsLogoFile");
 
-  const logo = prompt(
-    "URL logo katalog (kosongkan jika belum ada):",
-    ""
-  );
+  nameInput.value =
+    document.getElementById("siteName")?.textContent ||
+    "Lumbung Pangan Semesta";
 
-  if(logo === null) return;
+  fileInput.value = "";
 
-  updateSiteSettings(name.trim(), logo.trim());
+  logoPreview.style.display = "none";
+  logoPreview.removeAttribute("src");
+
+  modal.style.display = "flex";
+  }
+function closeSettings(){
+
+  const modal = document.getElementById("settingsModal");
+
+  if(!modal) return;
+
+  modal.style.display = "none";
+
 }
-
   async function updateSiteSettings(name, logo){
 
   try{
