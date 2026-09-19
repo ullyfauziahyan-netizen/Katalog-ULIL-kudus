@@ -1439,7 +1439,64 @@ header{
   border-radius:13px !important;
   background:#fff !important;
   border
-  
+  /* ==========================================
+   DESKTOP PREMIUM LAYOUT
+   ========================================== */
+
+@media(min-width:701px){
+
+  header{
+    height:78px !important;
+    padding:9px 28px !important;
+  }
+
+  .logoPlaceholder img{
+    width:52px !important;
+    height:52px !important;
+  }
+
+  .logoPlaceholder span{
+    font-size:20px !important;
+  }
+
+  /* FILTER KIRI */
+  .filters{
+    width:270px !important;
+    border-radius:20px !important;
+    background:#fff !important;
+    border:1px solid #e8edf3 !important;
+    box-shadow:0 5px 20px rgba(16,42,76,.06);
+    padding:18px !important;
+  }
+
+  /* PRODUK */
+  #grid{
+    margin-left:300px !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:20px !important;
+  }
+
+  .card{
+    min-width:0;
+  }
+
+  .pic{
+    height:240px !important;
+  }
+
+  .cardbody{
+    padding:17px !important;
+  }
+
+  .name{
+    font-size:17px !important;
+  }
+
+  .price{
+    font-size:21px !important;
+  }
+
+}
 </style>
 </head>
 
