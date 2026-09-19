@@ -1855,16 +1855,30 @@ function addToCart(id, type){
 
   renderCart();
 
-}
-  function renderCart(){
+  }
+  
+function renderCart(){
 
   const el = document.getElementById("cart");
+  const badge = document.getElementById("cartCount");
 
   if(!el) return;
 
+  // UPDATE ANGKA KERANJANG
+  const jumlahItem = cart.reduce(
+    (total, item) => total + item.qty,
+    0
+  );
+
+  if(badge){
+    badge.textContent = jumlahItem;
+  }
+
   if(!cart.length){
+
     el.innerHTML =
       '<div class="empty">Keranjang masih kosong.</div>';
+
     return;
   }
 
@@ -1899,11 +1913,40 @@ function addToCart(id, type){
           </div>
 
           <div class="cartMeta">
-            ${x.type === "pcs" ? "PCS" : "CTN"} × ${x.qty}
+            ${x.type === "pcs" ? "PACK" : "CTN"}
           </div>
 
           <div class="cartPrice">
             Rp ${Number(x.price).toLocaleString("id-ID")}
+          </div>
+
+          <div style="margin-top:8px;display:flex;align-items:center;gap:8px">
+
+            <button
+              onclick="
+                cart[${i}].qty--;
+                if(cart[${i}].qty <= 0){
+                  cart.splice(${i},1);
+                }
+                renderCart();
+              "
+            >
+              −
+            </button>
+
+            <strong>
+              ${x.qty}
+            </strong>
+
+            <button
+              onclick="
+                cart[${i}].qty++;
+                renderCart();
+              "
+            >
+              +
+            </button>
+
           </div>
 
           <div class="cartSubtotal">
@@ -1914,7 +1957,10 @@ function addToCart(id, type){
 
         <button
           class="cartDelete"
-          onclick="cart.splice(${i},1);renderCart()"
+          onclick="
+            cart.splice(${i},1);
+            renderCart();
+          "
         >
           🗑️
         </button>
@@ -1934,7 +1980,7 @@ function addToCart(id, type){
       🛒 Checkout
     </button>
   `;
-  }
+}
   function checkoutCart(){
 
   if(!cart.length){
