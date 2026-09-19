@@ -1006,6 +1006,34 @@ main{
 .searchBox .search.searchVisible + .searchClose{
   display:block;
 }
+  /* CART PANEL - MUNCUL SAAT IKON DIKLIK */
+.cart.cartOpen{
+  display:block;
+  position:fixed !important;
+  top:74px;
+  right:12px;
+  width:min(420px,calc(100vw - 24px));
+  max-height:calc(100vh - 90px);
+  overflow-y:auto;
+  z-index:7000;
+  margin:0 !important;
+  padding:16px;
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:18px;
+  box-shadow:0 12px 35px rgba(0,0,0,.20);
+}
+
+@media(max-width:700px){
+  .cart.cartOpen{
+    top:72px;
+    left:10px;
+    right:10px;
+    width:auto;
+    max-height:calc(100vh - 150px);
+    border-radius:18px;
+  }
+}
 </style>
 </head>
 
@@ -1811,6 +1839,22 @@ function addToCart(id, type){
   }
 
   renderCart();
+}
+  function openCart(){
+
+  const el = document.getElementById("cart");
+
+  if(!el) return;
+
+  if(el.classList.contains("cartOpen")){
+    el.classList.remove("cartOpen");
+    return;
+  }
+
+  el.classList.add("cartOpen");
+
+  renderCart();
+
 }
   function renderCart(){
 
