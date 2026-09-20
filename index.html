@@ -4714,8 +4714,13 @@ document.getElementById("fPcsMarkup").value=x.pcsMarkup || 0;
 
   previewImage();
 
-  document.getElementById("productModal").style.display="flex";
-    }
+  const modal = document.getElementById("productModal");
+
+if(modal.parentElement !== document.body){
+  document.body.appendChild(modal);
+}
+
+modal.style.display="flex";
 
 async function deleteProduct(id){
 
