@@ -4721,8 +4721,16 @@ if(modal.parentElement !== document.body){
 }
 
 modal.style.display="flex";
+
+document.querySelector("header").style.zIndex="1";
+
+const tools = document.querySelector(".mobileTools");
+if(tools){
+  tools.style.zIndex="1";
 }
 
+document.body.style.overflow="hidden";
+}
 async function deleteProduct(id){
 
   if(!confirm("Hapus produk ini?"))return;
@@ -4767,6 +4775,14 @@ function closeProductForm(){
 
   document.getElementById("productModal").style.display="none";
 
+  document.querySelector("header").style.zIndex="5000";
+
+  const tools = document.querySelector(".mobileTools");
+  if(tools){
+    tools.style.zIndex="6000";
+  }
+
+  document.body.style.overflow="";
 }
 
 
