@@ -3790,7 +3790,20 @@ function render(){
   ${
     [x.tag1, x.tag2, x.tag3]
       .filter(t => t && t.trim())
-      .map(t => `<span class="productTag">${esc(t)}</span>`)
+      .map((t,i) => `<span style="
+display:inline-block !important;
+padding:5px 9px !important;
+margin:0 5px 5px 0 !important;
+background:${i===0 ? '#eef6ff' : i===1 ? '#eef9f1' : '#fff7e8'} !important;
+color:${i===0 ? '#1769aa' : i===1 ? '#218344' : '#a36a08'} !important;
+border:1px solid ${i===0 ? '#d5e7f7' : i===1 ? '#d5ecd9' : '#f0dfb8'} !important;
+border-radius:999px !important;
+font-size:9px !important;
+font-weight:700 !important;
+line-height:1.2 !important;
+white-space:nowrap !important;
+box-sizing:border-box !important;
+">${esc(t)}</span>`)
       .join("")
   }
 </div>
