@@ -2779,6 +2779,76 @@ main{
   }
 
 }
+  /* ===== TAG PRODUK - COMPACT PREMIUM ===== */
+
+.productTags{
+  display:flex !important;
+  flex-wrap:wrap !important;
+  align-items:center !important;
+  gap:6px !important;
+  min-height:24px !important;
+  margin:0 0 8px !important;
+  overflow:hidden !important;
+}
+
+.productTag{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+
+  width:auto !important;
+  max-width:100% !important;
+  min-height:24px !important;
+
+  padding:4px 9px !important;
+  margin:0 !important;
+
+  border:1px solid #d9e8f7 !important;
+  border-radius:999px !important;
+
+  background:#eef6ff !important;
+  color:#1769aa !important;
+
+  font-size:10px !important;
+  line-height:1.15 !important;
+  font-weight:700 !important;
+
+  white-space:nowrap !important;
+  overflow:hidden !important;
+  text-overflow:ellipsis !important;
+  box-sizing:border-box !important;
+}
+
+.productTag:nth-child(2){
+  background:#eef9f1 !important;
+  border-color:#d7efdc !important;
+  color:#218344 !important;
+}
+
+.productTag:nth-child(3){
+  background:#fff7e8 !important;
+  border-color:#f4e1b8 !important;
+  color:#a36a08 !important;
+}
+
+@media(max-width:700px){
+
+  .productTags{
+    gap:5px !important;
+    min-height:23px !important;
+    margin-bottom:7px !important;
+  }
+
+  .productTag{
+    min-height:22px !important;
+    max-width:calc(100% - 4px) !important;
+    padding:3px 8px !important;
+    border-radius:999px !important;
+    font-size:9px !important;
+    line-height:1.1 !important;
+  }
+
+}
 </style>
 </head>
 
