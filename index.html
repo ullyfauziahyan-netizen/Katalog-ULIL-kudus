@@ -1963,6 +1963,67 @@ header{
     border-radius:22px;
   }
 }
+/* ================================
+   ADMIN LOGIN POPUP
+================================ */
+
+.adminLoginModal{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:10000 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:18px !important;
+  background:rgba(15,23,42,.55) !important;
+  backdrop-filter:blur(7px);
+}
+
+.adminLoginModal.show{
+  display:flex !important;
+}
+
+.adminLoginCard{
+  width:100% !important;
+  max-width:620px !important;
+  max-height:calc(100vh - 80px);
+  overflow-y:auto;
+  box-sizing:border-box;
+  background:#fff !important;
+  border-radius:28px !important;
+  padding:28px 26px 30px !important;
+  box-shadow:0 20px 60px rgba(0,0,0,.22) !important;
+  position:relative;
+}
+
+.adminLoginClose{
+  position:absolute !important;
+  top:24px !important;
+  left:24px !important;
+  width:52px !important;
+  height:52px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:0 !important;
+  border:1px solid #d9e0e7 !important;
+  border-radius:14px !important;
+  background:#fff !important;
+  color:#17233b !important;
+  font-size:30px !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+}
+
+.adminLoginIcon{
+  width:64px !important;
+  height:64px !important;
+  margin:4px auto 14px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:18px
+  
 </style>
 </head>
 
@@ -1994,7 +2055,7 @@ header{
     <button
       class="adminLoginClose"
       onclick="closeAdminLogin()"
-    >×</button>
+    >←</button>
 
     <div class="adminLoginIcon">🔐</div>
 
