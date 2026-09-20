@@ -3841,7 +3841,8 @@ box-sizing:border-box !important;
           <div style="margin-top:12px">
 
             <button
-              onclick="addToCart(${x.id},'ctn')">
+  style="width:200px; max-width:100%; box-sizing:border-box;"
+  onclick="addToCart(${x.id},'ctn')">
               🛒 Tambah CTN
             </button>
 
@@ -3849,7 +3850,8 @@ box-sizing:border-box !important;
               x.pcsEnabled && x.i
               ? `
                 <button
-                  onclick="addToCart(${x.id},'pcs')">
+  style="width:200px; max-width:100%; box-sizing:border-box;"
+  onclick="addToCart(${x.id},'pcs')">
                   🛒 Tambah PACK
                 </button>
               `
