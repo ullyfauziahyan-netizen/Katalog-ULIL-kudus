@@ -4483,7 +4483,22 @@ document.getElementById("fPcsMarkup").value="0";
 
   window.editingProductId=null;
 
-  document.getElementById("productModal").style.display="flex";
+const modal = document.getElementById("productModal");
+
+if(modal.parentElement !== document.body){
+  document.body.appendChild(modal);
+}
+
+modal.style.display="flex";
+
+document.querySelector("header").style.zIndex="1";
+
+const tools = document.querySelector(".mobileTools");
+if(tools){
+  tools.style.zIndex="1";
+}
+
+document.body.style.overflow="hidden";
 }
   function openSettings(){
 
