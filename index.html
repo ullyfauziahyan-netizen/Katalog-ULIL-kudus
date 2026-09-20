@@ -2923,6 +2923,24 @@ main{
     overflow-y:auto !important;
   }
 }
+  /* ===== FIX POPUP EDIT TERPOTONG MAIN ===== */
+
+@media(max-width:700px){
+  main{
+    overflow:visible !important;
+  }
+
+  .modal{
+    position:fixed !important;
+    inset:0 !important;
+    z-index:9990 !important;
+  }
+
+  .modalBox{
+    position:relative !important;
+    z-index:9991 !important;
+  }
+}
 </style>
 </head>
 
