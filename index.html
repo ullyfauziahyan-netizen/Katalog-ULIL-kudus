@@ -2734,6 +2734,51 @@ main{
   }
 
 }
+  /* =========================================
+   PRODUCT TAG / BADGE
+========================================= */
+
+.productTags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:8px;
+  min-height:0;
+}
+
+.productTag{
+  display:inline-flex;
+  align-items:center;
+
+  padding:4px 9px;
+
+  border-radius:999px;
+
+  background:#eef6ff;
+  color:#1769aa;
+
+  border:1px solid #d7eaff;
+
+  font-size:11px;
+  font-weight:700;
+  line-height:1.2;
+
+  white-space:nowrap;
+}
+
+@media(max-width:700px){
+
+  .productTags{
+    gap:5px;
+    margin-bottom:6px;
+  }
+
+  .productTag{
+    padding:4px 7px;
+    font-size:10px;
+  }
+
+}
 </style>
 </head>
 
@@ -3531,6 +3576,14 @@ function render(){
         </div>
 
         <div class="cardbody">
+        <div class="productTags">
+  ${
+    [x.tag1, x.tag2, x.tag3]
+      .filter(t => t && t.trim())
+      .map(t => `<span class="productTag">${esc(t)}</span>`)
+      .join("")
+  }
+</div>
 
           <div class="brand">
             ${esc(x.b)}
