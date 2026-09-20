@@ -1836,6 +1836,133 @@ header{
   margin-top:14px !important;
   padding-top:14px !important;
 }
+  /* ================================
+   LOGIN ADMIN — PROFESSIONAL
+================================ */
+
+.adminLoginModal{
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(15,23,42,.62);
+  backdrop-filter:blur(8px);
+}
+
+.adminLoginModal.show{
+  display:flex;
+}
+
+.adminLoginCard{
+  width:min(400px,100%);
+  background:#fff;
+  border-radius:24px;
+  padding:30px 26px 26px;
+  box-shadow:0 25px 70px rgba(0,0,0,.25);
+  position:relative;
+  animation:adminLoginIn .22s ease-out;
+}
+
+@keyframes adminLoginIn{
+  from{
+    opacity:0;
+    transform:translateY(15px) scale(.97);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.adminLoginClose{
+  position:absolute;
+  top:14px;
+  right:14px;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  background:#f1f5f9;
+  color:#475569;
+  font-size:20px;
+  cursor:pointer;
+}
+
+.adminLoginClose:hover{
+  background:#e2e8f0;
+}
+
+.adminLoginIcon{
+  width:64px;
+  height:64px;
+  margin:4px auto 16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:18px;
+  background:#eaf2ff;
+  font-size:30px;
+}
+
+.adminLoginCard h2{
+  margin:0;
+  text-align:center;
+  font-size:26px;
+  color:#17233b;
+}
+
+.adminLoginCard p{
+  margin:8px 0 24px;
+  text-align:center;
+  color:#64748b;
+  font-size:14px;
+}
+
+.adminLoginCard input{
+  width:100%;
+  box-sizing:border-box;
+  margin-bottom:12px;
+  padding:14px 15px;
+  border:1px solid #d9e0e8;
+  border-radius:12px;
+  background:#f8fafc;
+  color:#17233b;
+  font-size:15px;
+  outline:none;
+}
+
+.adminLoginCard input:focus{
+  border-color:#2876d2;
+  background:#fff;
+  box-shadow:0 0 0 3px rgba(40,118,210,.10);
+}
+
+.adminLoginButton{
+  width:100%;
+  margin-top:6px;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#172f50;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.adminLoginButton:active{
+  transform:scale(.98);
+}
+
+@media(max-width:500px){
+  .adminLoginCard{
+    padding:28px 20px 22px;
+    border-radius:22px;
+  }
+}
 </style>
 </head>
 
@@ -1858,6 +1985,46 @@ header{
     <button class="adminHeader" onclick="adminLogin()">🔒 Admin</button>
   </div>
 </header>
+
+<!-- MODAL LOGIN ADMIN -->
+<div id="adminLoginModal" class="adminLoginModal">
+
+  <div class="adminLoginCard">
+
+    <button
+      class="adminLoginClose"
+      onclick="closeAdminLogin()"
+    >×</button>
+
+    <div class="adminLoginIcon">🔐</div>
+
+    <h2>Admin Login</h2>
+    <p>Masuk untuk mengelola katalog</p>
+
+    <input
+      id="adminEmail"
+      type="email"
+      placeholder="Email admin"
+      autocomplete="username"
+    >
+
+    <input
+      id="adminPassword"
+      type="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    >
+
+    <button
+      class="adminLoginButton"
+      onclick="submitAdminLogin()"
+    >
+      Masuk
+    </button>
+
+  </div>
+
+</div>
 
 <main>
 
@@ -3119,11 +3286,34 @@ function esc(s){
 
 async function adminLogin(){
 
-  const email=prompt("Email admin:");
-  if(!email)return;
+  const modal=document.getElementById("adminLoginModal");
 
-  const password=prompt("Password admin:");
-  if(!password)return;
+  if(!modal)return;
+
+  modal.classList.add("show");
+
+  const emailInput=document.getElementById("adminEmail");
+  const passwordInput=document.getElementById("adminPassword");
+
+  if(emailInput){
+    emailInput.value="";
+    setTimeout(()=>emailInput.focus(),100);
+  }
+
+  if(passwordInput){
+    passwordInput.value="";
+  }
+
+}
+  async function submitAdminLogin(){
+
+  const email=document.getElementById("adminEmail").value.trim();
+  const password=document.getElementById("adminPassword").value;
+
+  if(!email || !password){
+    alert("Email dan password wajib diisi.");
+    return;
+  }
 
   try{
 
@@ -3145,25 +3335,55 @@ async function adminLogin(){
     const result=await r.json();
 
     if(!r.ok){
-      alert("Login gagal: "+(result.error_description||result.msg||"Email atau password salah"));
+
+      alert(
+        "Login gagal: " +
+        (result.error_description ||
+         result.msg ||
+         "Email atau password salah.")
+      );
+
       return;
     }
 
-    localStorage.setItem("admin_token",result.access_token);
+    localStorage.setItem(
+      "admin_token",
+      result.access_token
+    );
 
     isAdmin=true;
-document.getElementById("adminbar").style.display="flex";
-document.getElementById("adminPanel").style.display="block";
-renderAdminList();
-render();
+
+    document.getElementById("adminLoginModal")
+      .classList.remove("show");
+
+    document.getElementById("adminbar")
+      .style.display="flex";
+
+    document.getElementById("adminPanel")
+      .style.display="block";
+
+    renderAdminList();
+    render();
 
   }catch(e){
 
-    alert("Gagal terhubung ke Supabase");
+    console.error(e);
+
+    alert("Gagal terhubung ke Supabase.");
 
   }
-}
 
+}
+  
+function closeAdminLogin(){
+
+  const modal=document.getElementById("adminLoginModal");
+
+  if(!modal)return;
+
+  modal.classList.remove("show");
+
+}
 function logout(){
 
   localStorage.removeItem("admin_token");
