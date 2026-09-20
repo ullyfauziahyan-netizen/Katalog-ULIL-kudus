@@ -2703,7 +2703,37 @@ main{
   }
 
 }
-  
+  /* =========================================
+   FIX TINGGI FOTO PRODUK
+========================================= */
+
+.pic{
+  height:210px !important;
+  min-height:210px !important;
+  max-height:210px !important;
+}
+
+.pic img{
+  height:100% !important;
+  width:100% !important;
+  object-fit:contain !important;
+}
+
+/* MOBILE */
+@media(max-width:700px){
+
+  .pic{
+    height:180px !important;
+    min-height:180px !important;
+    max-height:180px !important;
+  }
+
+  .pic img{
+    height:180px !important;
+    max-height:180px !important;
+  }
+
+}
 </style>
 </head>
 
