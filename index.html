@@ -3514,22 +3514,91 @@ function esc(s){
 
 async function adminLogin(){
 
-  const modal=document.getElementById("adminLoginModal");
+  const modal = document.getElementById("adminLoginModal");
 
-  if(!modal)return;
+  if(!modal) return;
 
   modal.classList.add("show");
 
-  const emailInput=document.getElementById("adminEmail");
-  const passwordInput=document.getElementById("adminPassword");
+  modal.style.setProperty("position","fixed","important");
+  modal.style.setProperty("inset","0","important");
+  modal.style.setProperty("z-index","10000","important");
+  modal.style.setProperty("display","flex","important");
+  modal.style.setProperty("align-items","center","important");
+  modal.style.setProperty("justify-content","center","important");
+  modal.style.setProperty("padding","16px","important");
+  modal.style.setProperty("box-sizing","border-box","important");
+  modal.style.setProperty(
+    "background",
+    "rgba(15,23,42,.60)",
+    "important"
+  );
+
+  const card = modal.querySelector(".adminLoginCard");
+
+  if(card){
+
+    card.style.setProperty("position","relative","important");
+    card.style.setProperty("width","100%","important");
+    card.style.setProperty("max-width","430px","important");
+    card.style.setProperty(
+      "max-height",
+      "calc(100vh - 40px)",
+      "important"
+    );
+    card.style.setProperty("overflow-y","auto","important");
+    card.style.setProperty("box-sizing","border-box","important");
+    card.style.setProperty("background","#fff","important");
+    card.style.setProperty("border-radius","24px","important");
+    card.style.setProperty(
+      "padding",
+      "70px 22px 24px",
+      "important"
+    );
+  }
+
+  document.body.style.overflow = "hidden";
+
+  const emailInput =
+    document.getElementById("adminEmail");
+
+  const passwordInput =
+    document.getElementById("adminPassword");
 
   if(emailInput){
-    emailInput.value="";
-    setTimeout(()=>emailInput.focus(),100);
+
+    emailInput.value = "";
+
+    emailInput.style.setProperty(
+      "display",
+      "block",
+      "important"
+    );
+
+    emailInput.style.setProperty(
+      "width",
+      "100%",
+      "important"
+    );
+
+    setTimeout(() => emailInput.focus(),100);
   }
 
   if(passwordInput){
-    passwordInput.value="";
+
+    passwordInput.value = "";
+
+    passwordInput.style.setProperty(
+      "display",
+      "block",
+      "important"
+    );
+
+    passwordInput.style.setProperty(
+      "width",
+      "100%",
+      "important"
+    );
   }
 
 }
