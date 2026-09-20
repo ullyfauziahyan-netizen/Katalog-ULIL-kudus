@@ -4520,7 +4520,20 @@ document.body.style.overflow="hidden";
   logoPreview.style.display = "none";
   logoPreview.removeAttribute("src");
 
-  modal.style.display = "flex";
+  if(modal.parentElement !== document.body){
+  document.body.appendChild(modal);
+}
+
+modal.style.display="flex";
+
+document.querySelector("header").style.zIndex="1";
+
+const tools = document.querySelector(".mobileTools");
+if(tools){
+  tools.style.zIndex="1";
+}
+
+document.body.style.overflow="hidden";
   }
 function closeSettings(){
 
