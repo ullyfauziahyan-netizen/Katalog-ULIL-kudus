@@ -2901,6 +2901,28 @@ main{
     border-radius:999px !important;
   }
 }
+  /* ===== PRODUCT EDIT MODAL DI ATAS HEADER & FOOTER ===== */
+
+.modal{
+  z-index:9990 !important;
+}
+
+.modalBox{
+  position:relative;
+  z-index:9991 !important;
+  max-height:calc(100vh - 32px) !important;
+}
+
+@media(max-width:700px){
+  .modal{
+    padding:16px !important;
+  }
+
+  .modalBox{
+    max-height:calc(100vh - 32px) !important;
+    overflow-y:auto !important;
+  }
+}
 </style>
 </head>
 
