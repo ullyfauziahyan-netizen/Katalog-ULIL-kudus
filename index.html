@@ -1704,6 +1704,30 @@ header{
   }
 
 }
+  /* TOMBOL KEMBALI KERANJANG */
+#cart button[onclick="openCart()"]{
+  width:74px !important;
+  height:58px !important;
+  padding:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  font-size:0 !important;
+  font-weight:700 !important;
+  line-height:1 !important;
+  border:1px solid #d9e0e7 !important;
+  border-radius:16px !important;
+  background:#fff !important;
+  color:#17233b !important;
+}
+
+/* PANAH */
+#cart button[onclick="openCart()"]::before{
+  content:"←";
+  font-size:32px;
+  font-weight:800;
+  line-height:1;
+}
 </style>
 </head>
 
